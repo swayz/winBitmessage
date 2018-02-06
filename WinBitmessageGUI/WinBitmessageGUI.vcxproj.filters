@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{0bc04262-02d7-46bc-812e-f4902ac88161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Header Files">
+      <UniqueIdentifier>{8faf5b58-9bc2-42fd-8d2e-98b3057e2921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Header Files\sqlite">
+      <UniqueIdentifier>{658ccc53-91fe-430f-a660-f0943c53ed9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Source Files">
+      <UniqueIdentifier>{080d960d-2040-4f42-b070-584ff1c1ccf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Source Files\sqlite">
+      <UniqueIdentifier>{4119d9f2-db8e-4800-8c35-55a746a2cf03}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WinBitmessageGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tabs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\BM.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\bm_db.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\ecc.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\Encryption.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\memory.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\network.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\resource.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\rmd160.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\stdafx.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\utils.h">
+      <Filter>src\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\sqlite\sqlite3.h">
+      <Filter>src\Header Files\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="chat_TCP\sqlite\sqlite3ext.h">
+      <Filter>src\Header Files\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="MessagesTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SendTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinBitmessageGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tabs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_TCP\BM.cpp">
+      <Filter>src\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_TCP\bm_db.cpp">
+      <Filter>src\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_TCP\ecc.cpp">
+      <Filter>src\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_TCP\Encryption.cpp">
+      <Filter>src\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_TCP\memory.cpp">
+      <Filter>src\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_TCP\network.cpp">
+      <Filter>src\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_TCP\rmd160.cpp">
+      <Filter>src\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_TCP\utils.cpp">
+      <Filter>src\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_TCP\sqlite\shell.c">
+      <Filter>src\Source Files\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="chat_TCP\sqlite\sqlite3.c">
+      <Filter>src\Source Files\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="MessagesTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SendTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WinBitmessageGUI.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="WinBitmessageGUI.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
