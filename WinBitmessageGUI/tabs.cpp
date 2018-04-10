@@ -8,6 +8,9 @@ HWND Tabs::display = NULL;
 HWND Tabs::h_tab = NULL;
 HWND Tabs::h_tab_container = NULL;
 
+HWND Tabs::h_msg_tab = NULL;
+HWND Tabs::h_send_tab = NULL;
+
 //HWND Tabs::h_msg_display = NULL;
 //HWND Tabs::tv_messages = NULL;
 //HWND Tabs::lv_messages = NULL;
@@ -123,8 +126,8 @@ BOOL Tabs::OnNotify(HWND hwndTab, HWND hwndDisplay, LPARAM lParam)
 
 		if (Tabs::h_tab_container)
 		{
-			DestroyWindow(Tabs::h_tab_container);
-			
+			//DestroyWindow(Tabs::h_tab_container);
+			ShowWindow(Tabs::h_tab_container, SW_HIDE);
 			Tabs::h_tab_container = NULL;
 		}
 
@@ -132,12 +135,18 @@ BOOL Tabs::OnNotify(HWND hwndTab, HWND hwndDisplay, LPARAM lParam)
 
 		if (iPage == 0)
 		{
-			Tabs::h_tab_container = CreateDialog(MainWin::hInst, MAKEINTRESOURCE(2), hwndTab, MessagesTab::Messages_tabProc);
+			if (!Tabs::h_msg_tab)
+				Tabs::h_msg_tab = CreateDialog(MainWin::hInst, MAKEINTRESOURCE(2), hwndTab, MessagesTab::Messages_tabProc);
+
+			Tabs::h_tab_container = Tabs::h_msg_tab;
 
 		}
 		else if (iPage == 1)
 		{
-			Tabs::h_tab_container = CreateDialog(MainWin::hInst, MAKEINTRESOURCE(3), hwndTab, SendTab::Send_tabProc);
+			if (!Tabs::h_send_tab)
+				Tabs::h_send_tab = CreateDialog(MainWin::hInst, MAKEINTRESOURCE(3), hwndTab, SendTab::Send_tabProc);
+
+			Tabs::h_tab_container = Tabs::h_send_tab;
 		}
 
 		ShowWindow(Tabs::h_tab_container, SW_SHOW);
@@ -183,7 +192,8 @@ INT_PTR CALLBACK Tabs::TabControlDlgProc(HWND hWnd, UINT message, WPARAM wParam,
 	}
 
 	default:
-		return FALSE;	// Let system deal with msg
+		return DefWindowProc(hWnd, message, wParam, lParam);
+		//return DefDlgProcW(hWnd, message, wParam, lParam);	// Let system deal with msg
 	}
 	return 0;
 }

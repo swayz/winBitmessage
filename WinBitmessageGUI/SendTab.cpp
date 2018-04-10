@@ -10,7 +10,8 @@ HWND SendTab::to_h = NULL;
 HWND SendTab::from_dropdown_h = NULL;
 HWND SendTab::subject_h = NULL;
 HWND SendTab::body_h = NULL;
-
+HWND SendTab::TTL_trackbar_h = NULL;
+HWND SendTab::TTL_label_h = NULL;
 
 
 HWND SendTab::send_tab_h = NULL;
@@ -21,12 +22,13 @@ HWND SendTab::send_tab_h = NULL;
 
 DWORD SendTab::selected_contact_id = NULL;
 DWORD SendTab::selected_from_id = NULL;
+DWORD SendTab::selected_TTL = NULL;
 
 //
 
 BOOL contact_list_init = FALSE;
 DWORD from_list[256] = {};
-
+DWORD old_selected_ttl = NULL;
 
 
 
@@ -35,18 +37,31 @@ BOOL SendTab::on_init(HWND hWnd)
 	SendTab::send_tab_h = hWnd;
 	contact_list_init = FALSE;
 
+
+	//
+
+
 	SendTab::send_h = GetDlgItem(hWnd, IDC_BUTTON1);
 	SendTab::contact_list_h = GetDlgItem(hWnd, IDC_LIST1);
 	SendTab::to_h = GetDlgItem(hWnd, IDC_EDIT2);
 	SendTab::from_dropdown_h = GetDlgItem(hWnd, IDC_COMBO1);
 	SendTab::subject_h = GetDlgItem(hWnd, IDC_EDIT3);
 	SendTab::body_h = GetDlgItem(hWnd, IDC_EDIT4);
+	SendTab::TTL_trackbar_h = GetDlgItem(hWnd, IDC_SLIDER1);
+	SendTab::TTL_label_h = GetDlgItem(hWnd, 6969);
 
+	//
 
-	// 
-	SendTab::contact_list_h = GetDlgItem(hWnd, IDC_LIST1);
+	SendMessage(SendTab::TTL_trackbar_h, TBM_SETRANGE, (WPARAM)TRUE, (LPARAM)MAKELONG(1, 23/*hours*/ + 28/*days*/));
+	SendMessage(SendTab::TTL_trackbar_h, TBM_SETPOS, (WPARAM)TRUE, 27);
+
+	//
+
 	SendTab::init_contact_list();
 	SendTab::update_from_list();
+
+	//
+
 
 
 	ExitThread(0);
@@ -130,9 +145,11 @@ BOOL SendTab::update_contact_list()
 		{
 
 			id = sqlite3_column_int(stmt, 0);
+			PBM_MSG_ADDR _addr = (PBM_MSG_ADDR)sqlite3_column_blob(stmt, 1);
 			label = (LPWSTR)sqlite3_column_text16(stmt, 2);
 			addr = (LPWSTR)sqlite3_column_text16(stmt, 3);
-			is_ready = sqlite3_column_bytes(stmt, 7);
+			
+			is_ready = (DWORD)((PBCRYPT_ECCKEY_BLOB)_addr->pub_enc_blob)->dwMagic;
 
 			lvi.iItem = i;
 			lvi.iSubItem = 0;
@@ -292,6 +309,14 @@ DWORD SendTab::contact_right_click_menu()
 	return rcmid;
 }
 
+
+
+
+
+
+
+
+
 DWORD SendTab::crcm_proc(DWORD selection)
 {
 
@@ -328,7 +353,7 @@ DWORD SendTab::crcm_proc(DWORD selection)
 
 		// use the ID to get the BM address
 
-		if (BMDB::address_find(SendTab::selected_contact_id, NULL, &addr))
+		if (BMDB::address_find(SendTab::selected_contact_id, NULL, NULL, &addr))
 		{
 			// Copy BM address to the clipboard
 
@@ -378,7 +403,7 @@ BOOL SendTab::on_notify(HWND hWnd, WPARAM wParam, NMHDR* lParam)
 	{
 
 	
-		DWORD right_click_selection = contact_right_click_menu();
+		DWORD right_click_selection = SendTab::contact_right_click_menu();
 
 		// handle menu selection
 
@@ -409,7 +434,6 @@ BOOL SendTab::on_notify(HWND hWnd, WPARAM wParam, NMHDR* lParam)
 	}
 
 
-
 		default:
 			break;
 	}
@@ -434,53 +458,83 @@ BOOL SendTab::on_cmd(HWND hWnd, WPARAM wParam, LPARAM lParam)
 		switch (cid)
 		{
 
-		case IDC_BUTTON1: // New Identity
+		case IDC_BUTTON1: //
 		{
 			// send message
 
-			//GetWindowTextW(,)
-
-			int from_address = ComboBox_GetCurSel(SendTab::from_dropdown_h);
+			//
+			int item_n = ComboBox_GetCurSel(SendTab::from_dropdown_h);
+			int from_address = ComboBox_GetItemData(SendTab::from_dropdown_h, item_n);
 			LPSTR to_address = (LPSTR)ALLOC_(MAX_PATH);
-			LPWSTR to_address_w = (LPWSTR)ALLOCw_(MAX_PATH);
+			//LPWSTR to_address_w = (LPWSTR)ALLOCw_(MAX_PATH);
 
-			LPWSTR subject = (LPWSTR)ALLOCw_(MAX_PATH);
-			LPWSTR body = (LPWSTR)ALLOCw_(MAX_BODY_LENGTH);
+			LPSTR subject = (LPSTR)ALLOCw_(MAX_PATH);
+			LPSTR body = (LPSTR)ALLOCw_(MAX_BODY_LENGTH);
 
 
-			DWORD to_s = GetWindowTextLengthA(SendTab::to_h);
-			DWORD to_s_w = GetWindowTextLengthW(SendTab::to_h);
+			//DWORD to_s = GetWindowTextLengthA(SendTab::to_h);
+			//DWORD to_s_w = GetWindowTextLengthW(SendTab::to_h);
 
-			DWORD subject_s = GetWindowTextLengthW(SendTab::subject_h);
-			DWORD body_s = GetWindowTextLengthW(SendTab::body_h);
+			//DWORD subject_s = GetWindowTextLengthW(SendTab::subject_h);
+			//DWORD body_s = GetWindowTextLengthW(SendTab::body_h);
 
 			GetWindowTextA(SendTab::to_h, to_address, MAX_PATH);
-			GetWindowTextW(SendTab::to_h, to_address_w, MAX_PATH);
+			//GetWindowTextW(SendTab::to_h, to_address_w, MAX_PATH);
+
+
+			DWORD TTL_position = SendMessage(SendTab::TTL_trackbar_h, TBM_GETPOS, 0, 0);
+
 
 
 			// check if we have the address
 			// if not get the public keys.
 			// 
 
-			if (!BM::validate_address(to_address, lstrlenA(to_address), FALSE))
+			BM_MSG_ADDR _to_addr = {};
+
+			if (!BM::validate_address(to_address, lstrlenA(to_address), NULL))
 			{
 				MessageBoxW(hWnd, L"Invalid Bitmessage Adress!", L"ERROR", MB_ICONERROR);
 				break;
 			}
 
-			//BM_MSG_ADDR bm_addr = {};
-			//PBM_MSG_ADDR pbm_addr = &bm_addr;
 
-
-			//BMDB::address_find(0, to_address, &pbm_addr);
-
-			GetWindowTextW(SendTab::subject_h, subject, MAX_PATH);
-			GetWindowTextW(SendTab::body_h, body, MAX_PATH);
+			if (BMDB::address_find(0, to_address, 0, &_to_addr))
+			{
 
 
 
+				GetWindowTextA(SendTab::subject_h, subject, MAX_PATH);
 
-			BM::send_msg(NULL, 200, NULL, NULL);
+				if (lstrlenA(subject) == 0)
+				{
+					MessageBoxW(hWnd, L"Enter a subject!", L"ERROR", MB_ICONERROR); 
+					break;
+				}
+				
+
+				
+				GetWindowTextA(SendTab::body_h, body, MAX_BODY_LENGTH);
+
+				if (lstrlenA(body) == 0)
+				{
+					MessageBoxW(hWnd, L"Enter a message!", L"ERROR", MB_ICONERROR);
+					break;
+				}
+
+
+				//
+				// Send the Message!
+
+
+				BM::send_msg(from_address, _to_addr.db_id, subject, body);
+
+
+				//
+				//
+
+			}
+
 			break;
 		}
 
@@ -511,6 +565,11 @@ BOOL SendTab::on_cmd(HWND hWnd, WPARAM wParam, LPARAM lParam)
 
 INT_PTR CALLBACK SendTab::Send_tabProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+
+	PAINTSTRUCT ps;
+	HDC hdc;
+
+
 	switch (message)
 	{
 		// Handle the WM_INITDIALOG message in OnInitTabControlDialog
@@ -536,6 +595,54 @@ INT_PTR CALLBACK SendTab::Send_tabProc(HWND hWnd, UINT message, WPARAM wParam, L
 		break;
 
 
+	case WM_HSCROLL:
+		
+		SendTab::selected_TTL = SendMessage(SendTab::TTL_trackbar_h, TBM_GETPOS, 0, 0);
+		if (old_selected_ttl != SendTab::selected_TTL)
+			SendMessage(SendTab::send_tab_h, WM_PAINT, 0, 0);
+
+		break;
+
+	case WM_PAINT:
+	{
+
+		if (old_selected_ttl != SendTab::selected_TTL)
+		{
+			hdc = BeginPaint(hWnd, &ps);
+
+
+			DWORD n_ticks = 23 + 28;
+			TCHAR buff[MAX_PATH] = {};
+
+
+			if (SendTab::selected_TTL <= 23)
+			{
+
+				wsprintf(buff, TEXT("%u hours"), SendTab::selected_TTL);
+
+			}
+			else {
+
+				wsprintf(buff, TEXT("%u days"), SendTab::selected_TTL - 23);
+
+			}
+
+			BOOL set = Static_SetText(SendTab::TTL_label_h, buff);
+
+			old_selected_ttl = SendTab::selected_TTL;
+
+			//Static_SetText();
+
+			EndPaint(hWnd, &ps);
+		}
+
+		break;
+	}
+
+
+
+
+
 
 		HANDLE_MSG(hWnd, WM_NOTIFY, SendTab::on_notify);
 
@@ -552,6 +659,72 @@ INT_PTR CALLBACK SendTab::Send_tabProc(HWND hWnd, UINT message, WPARAM wParam, L
 }
 
 
+
+DWORD do_getpubkey_proc(LPVOID in)
+{
+
+	PBM_MSG_ADDR msg_addr = (PBM_MSG_ADDR)in;
+
+	
+
+	PBM_MSG_HDR msg_hdr = (PBM_MSG_HDR)ALLOC_(2048);
+	ZERO_(msg_hdr, 2048);
+
+	PBM_OBJECT obj = (PBM_OBJECT)msg_hdr->payload;
+	PBM_ENC_PL_256 pl = (PBM_ENC_PL_256)(((ULONG_PTR)msg_hdr + 2048) - 1024);
+	DWORD pl_size = 1024;
+
+
+
+
+
+	// Copy the public tag to the payload buffer.
+
+	memcpy_s(pl, 1024, msg_addr->tag, 32);
+
+	pl_size = 32;
+
+
+
+
+	// initialize object header
+
+	pl_size = BM::init_object(obj, 128, BM_OBJ_GETPUBKEY, (LPBYTE)pl, pl_size);
+
+	// initialize msg header
+
+
+	BM::init_msg_hdr(msg_hdr, pl_size, "object");
+
+
+
+
+	BYTE vect_tag[MAX_PATH] = {};
+
+	BM::create_vector_tag((LPBYTE)obj, pl_size, vect_tag, MAX_PATH);
+
+
+	BMDB::vector_add(vect_tag, obj, pl_size);
+
+
+	DWORD inv_id = BMDB::vector_find(NULL, vect_tag, NULL, NULL);
+
+
+	// propogate!
+	//Sleep(20000);
+	DBGOUTw(L"\r\r===== SENDING GETPUBKEY =====\r\r");
+	network::queue_obj(0, inv_id);
+
+	
+
+	if (in)
+	{
+		ZERO_(in, sizeof(BM_MSG_ADDR));
+		GlobalFree(in);
+	}
+	ExitThread(0);
+
+}
 
 
 
@@ -601,22 +774,31 @@ INT_PTR CALLBACK SendTab::add_contact_proc(HWND hWnd, UINT message, WPARAM wPara
 				GetWindowTextA(GetDlgItem(hWnd, IDC_EDIT1), bm_addr, MAX_PATH);
 
 
-				BM_MSG_ADDR msg_addr = {};
+				PBM_MSG_ADDR msg_addr = (PBM_MSG_ADDR)GlobalAlloc(GPTR, 0x400);
 				
 
-				if (BM::validate_address(bm_addr, lstrlenA(bm_addr), &msg_addr))
+				if (BM::validate_address(bm_addr, lstrlenA(bm_addr), msg_addr))
 				{
 
-					if(BMDB::address_add(&msg_addr, TEXT("none")))
+					if (BMDB::address_add(msg_addr, TEXT("none")))
+					{
 						SendTab::init_contact_list();
+
+
+						CreateThread(0, 0, (LPTHREAD_START_ROUTINE)do_getpubkey_proc, (LPVOID)msg_addr, 0, 0);
+						
+						
+					}
 					else
+					{
 						MessageBoxW(hWnd, L"This address is already in the Database!", L"ERROR", MB_ICONERROR);
+					}
 				}
 				else {
 					MessageBoxW(hWnd, L"Invalid Bitmessage Adress!", L"ERROR", MB_ICONERROR);
 				}
 				
-
+				
 
 				EndDialog(hWnd, TRUE);
 				break;

@@ -14,9 +14,8 @@ namespace Tabs
 	extern HWND display;
 	extern HWND h_tab;
 	extern HWND h_tab_container;
-	//extern HWND h_msg_display;
-	//extern HWND tv_messages; // page 1 TreeView
-	//extern HWND lv_messages; // page 1 TreeView
+	extern HWND h_msg_tab;
+	extern HWND h_send_tab; 
 
 
 	void OnTabSize(HWND hWnd, UINT state, int cx, int cy);

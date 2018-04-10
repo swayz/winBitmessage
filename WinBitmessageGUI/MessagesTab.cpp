@@ -4,14 +4,19 @@
 #define Messages_TAB_C
 #include "MessagesTab.h"
 
+
 // Address List / TreeView
- HWND MessagesTab::addr_list_h = NULL;
+HWND MessagesTab::addr_list_h = NULL;
 
 // Message List / ListView
- HWND MessagesTab::msg_list_h = NULL;
+HWND MessagesTab::msg_list_h = NULL;
 
 // Address List / TreeView
- HWND MessagesTab::msg_disp_h = NULL;
+HWND MessagesTab::msg_disp_h = NULL;
+
+// selected address
+DWORD MessagesTab::selected_addr_id = NULL;
+
 
 
 BOOL MessagesTab::on_init(HWND hWnd, HWND focus, LPARAM lParam)
@@ -30,12 +35,128 @@ BOOL MessagesTab::on_init(HWND hWnd, HWND focus, LPARAM lParam)
 }
 
 
+
+
+
+
+DWORD MessagesTab::my_addr_right_click_menu()
+{
+
+
+
+	HMENU rcm = CreatePopupMenu();
+	MENUITEMINFOW mi = {};
+
+	mi.cbSize = sizeof(MENUITEMINFO);
+	mi.fMask = MIIM_STRING | MIIM_ID | MIIM_STATE;
+	mi.fType = MFT_STRING;
+
+	// COPY
+
+
+	mi.fState = (!MessagesTab::selected_addr_id) ? MFS_DISABLED : MFS_ENABLED;
+
+	SendTab::selected_contact_id;
+
+	mi.wID = RCM_COPY;
+	mi.dwTypeData = RCMS_COPY;
+	mi.cch = lstrlenW(RCMS_COPY);
+
+	InsertMenuItemW(rcm, 0x1, TRUE, &mi);
+
+
+	POINT p = {};
+
+	GetCursorPos(&p);
+
+	// create right click pop up menu at the POINT p.
+
+	DWORD rcmid = TrackPopupMenuEx(rcm, TPM_RETURNCMD, p.x, p.y, MessagesTab::addr_list_h, NULL);
+
+	return rcmid;
+}
+
+
+
+
+DWORD MessagesTab::crcm_proc(DWORD selection)
+{
+
+
+	switch (selection)
+	{
+
+
+	case RCM_COPY:
+	{
+
+		BM_MSG_ADDR addr = {};
+
+		// use the ID to get the BM address
+
+		if (BMDB::address_find(MessagesTab::selected_addr_id, NULL, NULL, &addr))
+		{
+			// Copy BM address to the clipboard
+
+			size_t size = sizeof(CHAR)*(1 + lstrlenA(addr.readable));
+
+			HGLOBAL hResult = GlobalAlloc(GMEM_MOVEABLE, size);
+
+			LPSTR lptstrCopy = (LPSTR)GlobalLock(hResult);
+
+			memcpy(lptstrCopy, addr.readable, size);
+
+
+			GlobalUnlock(hResult);
+
+			OpenClipboard(SendTab::send_tab_h);
+			EmptyClipboard();
+			SetClipboardData(CF_TEXT, hResult);
+			CloseClipboard();
+
+		}
+
+		ZERO_(&addr, sizeof(BM_MSG_ADDR));
+
+
+		break;
+	}
+
+	default:
+		break;
+	}
+
+
+	return TRUE;
+
+}
+
+
+
+
+
+
 BOOL MessagesTab::on_notify(HWND hWnd, WPARAM wParam, NMHDR* lParam)
 {
 	NMHDR* nhdr = (NMHDR*)lParam;
 
 	switch (nhdr->code)
 	{
+
+
+	case NM_RCLICK:
+	{
+
+
+		DWORD right_click_selection = MessagesTab::my_addr_right_click_menu();
+
+
+		// handle menu selection
+		MessagesTab::crcm_proc(right_click_selection);
+
+
+		break;
+	}
 
 	// new folder selected
 	case TVN_SELCHANGED:
@@ -56,6 +177,7 @@ BOOL MessagesTab::on_notify(HWND hWnd, WPARAM wParam, NMHDR* lParam)
 			DWORD id = LOWORD(item.lParam);
 			DWORD folder = HIWORD(item.lParam);
 
+			MessagesTab::selected_addr_id = id;
 
 			MessagesTab::update_msg_list(hWnd, id, folder);
 			
@@ -364,7 +486,7 @@ BOOL MessagesTab::update_msg_list(HWND hml, DWORD to_id, DWORD folder)
 
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_TEXT | LVIF_PARAM;
-	WCHAR szText[200] = {};
+	WCHAR szText[MAX_PATH] = {};
 	int i = 0;
 
 	do
@@ -381,17 +503,17 @@ BOOL MessagesTab::update_msg_list(HWND hml, DWORD to_id, DWORD folder)
 			lvi.iSubItem = 0;
 			
 			lvi.pszText = szText;
-			lvi.cchTextMax = 200;
+			lvi.cchTextMax = MAX_PATH;
 			lvi.iImage = i;
 			lvi.lParam = id; // id of the message 
 
-			swprintf_s(szText, 200, L"%d", from);
+			swprintf_s(szText, MAX_PATH, L"%d", from);
 
 			
 			ListView_InsertItem(MessagesTab::msg_list_h, &lvi);
 
 
-			swprintf_s(szText, 200, L"%s", subject);
+			swprintf_s(szText, MAX_PATH, L"%s", subject);
 			ListView_SetItemText(MessagesTab::msg_list_h, i, 1, szText);
 
 			tm __tm = {};
@@ -402,7 +524,7 @@ BOOL MessagesTab::update_msg_list(HWND hml, DWORD to_id, DWORD folder)
 			
 
 
-			swprintf_s(szText, 200, L"%d/%d/%d  %d:%d", _tm->tm_mon + 1, _tm->tm_mday, (_tm->tm_year - 100), _tm->tm_hour + 1, _tm->tm_min);
+			swprintf_s(szText, MAX_PATH, L"%d/%d/%d  %d:%d", _tm->tm_mon + 1, _tm->tm_mday, (_tm->tm_year - 100), _tm->tm_hour + 1, _tm->tm_min);
 			ListView_SetItemText(MessagesTab::msg_list_h, i, 2, szText);
 
 

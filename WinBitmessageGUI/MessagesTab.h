@@ -25,7 +25,8 @@ namespace MessagesTab
 	// Address List / TreeView
 	extern HWND msg_disp_h;
 
-
+	// the selected address in the address tree. 
+	extern DWORD selected_addr_id;
 
 
 
@@ -36,6 +37,9 @@ namespace MessagesTab
 	BOOL on_cmd(HWND hWnd, WPARAM wParam, LPARAM lParam);
 	INT_PTR CALLBACK Messages_tabProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	INT_PTR CALLBACK add_label_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+	DWORD my_addr_right_click_menu();
+	DWORD crcm_proc(DWORD selection);// address tree RIGHT CLICK menu
 
 
 	void init_msg_list(HWND lv);

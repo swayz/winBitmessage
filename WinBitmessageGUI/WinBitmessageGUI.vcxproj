@@ -115,12 +115,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <AdditionalDependencies>Comctl32.lib;Ws2_32.lib;Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AssemblyDebug>true</AssemblyDebug>
     </Link>
@@ -145,18 +146,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="chat_TCP\BM.h" />
-    <ClInclude Include="chat_TCP\bm_db.h" />
-    <ClInclude Include="chat_TCP\ecc.h" />
-    <ClInclude Include="chat_TCP\Encryption.h" />
-    <ClInclude Include="chat_TCP\memory.h" />
-    <ClInclude Include="chat_TCP\network.h" />
-    <ClInclude Include="chat_TCP\resource.h" />
-    <ClInclude Include="chat_TCP\rmd160.h" />
-    <ClInclude Include="chat_TCP\sqlite\sqlite3.h" />
-    <ClInclude Include="chat_TCP\sqlite\sqlite3ext.h" />
-    <ClInclude Include="chat_TCP\stdafx.h" />
-    <ClInclude Include="chat_TCP\utils.h" />
+    <ClInclude Include="core\BM.h" />
+    <ClInclude Include="core\bm_db.h" />
+    <ClInclude Include="core\ecc.h" />
+    <ClInclude Include="core\Encryption.h" />
+    <ClInclude Include="core\memory.h" />
+    <ClInclude Include="core\network.h" />
+    <ClInclude Include="core\resource.h" />
+    <ClInclude Include="core\rmd160.h" />
+    <ClInclude Include="core\sqlite\sqlite3.h" />
+    <ClInclude Include="core\sqlite\sqlite3ext.h" />
+    <ClInclude Include="core\stdafx.h" />
+    <ClInclude Include="core\utils.h" />
     <ClInclude Include="MessagesTab.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SendTab.h" />
@@ -167,16 +168,16 @@
     <ClInclude Include="WinBitmessageGUI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="chat_TCP\BM.cpp" />
-    <ClCompile Include="chat_TCP\bm_db.cpp" />
-    <ClCompile Include="chat_TCP\ecc.cpp" />
-    <ClCompile Include="chat_TCP\Encryption.cpp" />
-    <ClCompile Include="chat_TCP\memory.cpp" />
-    <ClCompile Include="chat_TCP\network.cpp" />
-    <ClCompile Include="chat_TCP\rmd160.cpp" />
-    <ClCompile Include="chat_TCP\sqlite\shell.c" />
-    <ClCompile Include="chat_TCP\sqlite\sqlite3.c" />
-    <ClCompile Include="chat_TCP\utils.cpp" />
+    <ClCompile Include="core\BM.cpp" />
+    <ClCompile Include="core\bm_db.cpp" />
+    <ClCompile Include="core\ecc.cpp" />
+    <ClCompile Include="core\Encryption.cpp" />
+    <ClCompile Include="core\memory.cpp" />
+    <ClCompile Include="core\network.cpp" />
+    <ClCompile Include="core\rmd160.cpp" />
+    <ClCompile Include="core\sqlite\shell.c" />
+    <ClCompile Include="core\sqlite\sqlite3.c" />
+    <ClCompile Include="core\utils.cpp" />
     <ClCompile Include="MessagesTab.cpp" />
     <ClCompile Include="SendTab.cpp" />
     <ClCompile Include="stdafx.cpp">

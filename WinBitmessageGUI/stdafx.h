@@ -36,21 +36,33 @@
 
 
 
-#include "./chat_tcp/Chat1.h"
-#include "./chat_tcp/Encryption.h"
-#include "./chat_tcp/BM.h"
-#include "./chat_tcp/ecc.h"
-#include "./chat_tcp/memory.h"
-#include "./chat_tcp/utils.h"
-#include "./chat_tcp/network.h"
-#include "./chat_tcp/bm_db.h"
+
+#include "./core/Encryption.h"
+#include "./core/BM.h"
+#include "./core/ecc.h"
+#include "./core/memory.h"
+#include "./core/utils.h"
+#include "./core/network.h"
+#include "./core/bm_db.h"
 
 
 
 #pragma comment(linker,"\"/manifestdependency:type='win32' \
 name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
+
+
+
 // GUI
+
+
+
+#define BM_ENABLE_NETWORK
+
+
+
+
 
 // Message Tab
 #define MSG_TAB_GUI 2

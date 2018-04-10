@@ -48,40 +48,40 @@
     <ClInclude Include="tabs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\BM.h">
+    <ClInclude Include="core\BM.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\bm_db.h">
+    <ClInclude Include="core\bm_db.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\ecc.h">
+    <ClInclude Include="core\ecc.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\Encryption.h">
+    <ClInclude Include="core\Encryption.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\memory.h">
+    <ClInclude Include="core\memory.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\network.h">
+    <ClInclude Include="core\network.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\resource.h">
+    <ClInclude Include="core\resource.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\rmd160.h">
+    <ClInclude Include="core\rmd160.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\stdafx.h">
+    <ClInclude Include="core\stdafx.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\utils.h">
+    <ClInclude Include="core\utils.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\sqlite\sqlite3.h">
+    <ClInclude Include="core\sqlite\sqlite3.h">
       <Filter>src\Header Files\sqlite</Filter>
     </ClInclude>
-    <ClInclude Include="chat_TCP\sqlite\sqlite3ext.h">
+    <ClInclude Include="core\sqlite\sqlite3ext.h">
       <Filter>src\Header Files\sqlite</Filter>
     </ClInclude>
     <ClInclude Include="MessagesTab.h">
@@ -104,34 +104,34 @@
     <ClCompile Include="tabs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat_TCP\BM.cpp">
+    <ClCompile Include="core\BM.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat_TCP\bm_db.cpp">
+    <ClCompile Include="core\bm_db.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat_TCP\ecc.cpp">
+    <ClCompile Include="core\ecc.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat_TCP\Encryption.cpp">
+    <ClCompile Include="core\Encryption.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat_TCP\memory.cpp">
+    <ClCompile Include="core\memory.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat_TCP\network.cpp">
+    <ClCompile Include="core\network.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat_TCP\rmd160.cpp">
+    <ClCompile Include="core\rmd160.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat_TCP\utils.cpp">
+    <ClCompile Include="core\utils.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat_TCP\sqlite\shell.c">
+    <ClCompile Include="core\sqlite\shell.c">
       <Filter>src\Source Files\sqlite</Filter>
     </ClCompile>
-    <ClCompile Include="chat_TCP\sqlite\sqlite3.c">
+    <ClCompile Include="core\sqlite\sqlite3.c">
       <Filter>src\Source Files\sqlite</Filter>
     </ClCompile>
     <ClCompile Include="MessagesTab.cpp">
