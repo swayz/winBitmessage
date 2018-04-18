@@ -40,7 +40,7 @@
 #include "./core/Encryption.h"
 #include "./core/BM.h"
 #include "./core/ecc.h"
-#include "./core/memory.h"
+//#include "./core/memory.h"
 #include "./core/utils.h"
 #include "./core/network.h"
 #include "./core/bm_db.h"
@@ -55,6 +55,9 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 
 // GUI
+
+// current client version
+
 
 
 

@@ -15,13 +15,9 @@
 
 #define DEBUG_MODE
 
-//#ifdef DEBUG_MODE
-//
-//#define _CRTDBG_MAP_ALLOC
-//#include <stdlib.h>
-//#include <crtdbg.h>
-//
-//#endif
+
+// current client version
+#define BM_CLIENT_VERSION "/WinBitMessage:0.0.1/"
 
 
 #define IPV4_AD(x) *(u_long*)&x[12]

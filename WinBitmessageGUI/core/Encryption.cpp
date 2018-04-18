@@ -4,7 +4,7 @@
 #define ENCRYPTION_C
 
 #include "Encryption.h"
-#include "memory.h"
+//#include "memory.h"
 #include "utils.h"
 
 HCRYPTPROV Encryption::context = NULL;

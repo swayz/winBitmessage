@@ -116,6 +116,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4200</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -150,7 +151,6 @@
     <ClInclude Include="core\bm_db.h" />
     <ClInclude Include="core\ecc.h" />
     <ClInclude Include="core\Encryption.h" />
-    <ClInclude Include="core\memory.h" />
     <ClInclude Include="core\network.h" />
     <ClInclude Include="core\resource.h" />
     <ClInclude Include="core\rmd160.h" />
@@ -172,7 +172,6 @@
     <ClCompile Include="core\bm_db.cpp" />
     <ClCompile Include="core\ecc.cpp" />
     <ClCompile Include="core\Encryption.cpp" />
-    <ClCompile Include="core\memory.cpp" />
     <ClCompile Include="core\network.cpp" />
     <ClCompile Include="core\rmd160.cpp" />
     <ClCompile Include="core\sqlite\shell.c" />

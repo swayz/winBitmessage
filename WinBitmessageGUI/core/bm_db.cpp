@@ -2,7 +2,7 @@
 #define BM_DB_C
 
 #include "bm_db.h"
-#include "memory.h"
+//#include "memory.h"
 #include "utils.h"
 #include "Encryption.h"
 

@@ -60,9 +60,6 @@
     <ClInclude Include="core\Encryption.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="core\memory.h">
-      <Filter>src\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="core\network.h">
       <Filter>src\Header Files</Filter>
     </ClInclude>
@@ -114,9 +111,6 @@
       <Filter>src\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\Encryption.cpp">
-      <Filter>src\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="core\memory.cpp">
       <Filter>src\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\network.cpp">

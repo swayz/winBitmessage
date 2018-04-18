@@ -6,7 +6,7 @@
 #include "Encryption.h"
 #include "ecc.h"
 #include "rmd160.h"
-#include "memory.h"
+//#include "memory.h"
 #include "utils.h"
 #include "network.h"
 #include "bm_db.h"
@@ -2491,7 +2491,7 @@ DWORD BM::init_ver(PBM_PL_VER version_pl, long ip_to, uint16_t port_to)
 	
 
 
-	const char * userAgent = "/PyBitMessage:0.6.0/";
+	const char * userAgent = BM_CLIENT_VERSION;
 	
 
 	

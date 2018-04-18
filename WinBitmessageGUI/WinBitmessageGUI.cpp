@@ -70,7 +70,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
 
-	AddVectoredExceptionHandler(TRUE, VectoredHandlerSkip1);
+	//AddVectoredExceptionHandler(TRUE, VectoredHandlerSkip1);
 	
 
 
@@ -88,7 +88,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	sqlite3 * db = NULL;
 
-	Memory::init();
 
 	BM::init();
 
@@ -98,7 +97,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	network::init();
 
-//	int rc = sqlite3_open("C:/Users/John/Documents/Visual Studio 2015/Projects/WinBitmessageGUI/WinBitmessageGUI/chat_TCP/WM.db", &BM::db);
 	int rc = sqlite3_open("WM.db", &BM::db);
 
 	
