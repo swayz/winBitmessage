@@ -16,7 +16,7 @@ CHANGES:
 	- successfully send and recv an encrypted message!
 	- Make the Proof Of Work multi threaded.
 
-
+	??/??/??
 	- Added a GUI VERY similar to the original. (not on purpose just ended up that way).
 	- All the core code is complete except for the Proof Of Work.
 	- Semi-Functional GUI
